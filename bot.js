@@ -8,7 +8,19 @@ var Botkit = require('botkit');
 var os = require('os');
 var request = require('request');
 var controller = Botkit.slackbot({debug: false,});
-var bot = controller.spawn({token: process.env.token}).startRTM();
+var bot = controller.spawn({token: process.env.token}).startRTM((err,bot,payload) => {
+	new cron.CronJbo({
+		cronTime:'* * * * *',
+		onTick:() =>{
+		    bot.say({
+			    channel:'bot-test',
+			    text:'OK'
+			});
+		},
+		start: true,
+		timeZone:'Asia/Tokyo'
+	    });
+    });
 
 //=========================================================
 // 基本的な受け答え
@@ -17,6 +29,18 @@ var bot = controller.spawn({token: process.env.token}).startRTM();
 //    direct_message/direct_mention/mention/ambient
 //    bot.reply()で、botに発言をさせます。
 //=========================================================
+
+
+
+
+
+
+
+
+
+
+
+
 
 controller.hears(['(.*)hello(.*)'], 'direct_message,direct_mention,mention', function (bot, message) {
 	bot.reply(message,'うるせぇ :anger:');
